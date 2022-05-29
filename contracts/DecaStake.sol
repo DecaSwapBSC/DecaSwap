@@ -52,7 +52,7 @@ contract DecaStake is Ownable {
     event ClearStuckBalance(address to, uint256 balance);
 
     constructor(address _decaToken, address _cornToken, address _feeReceiver) {
-        require(feeReceiver != address(0));
+        require(_feeReceiver != address(0), "Address Zero");
 
         decaToken = IERC20(_decaToken);
         cornToken = ICornToken(_cornToken); 
