@@ -107,7 +107,7 @@ contract MasterChef is Ownable, ReentrancyGuard {
         UserInfo storage user = userInfo[_pid][msg.sender];
         require(user.amount >= _amount, "withdraw: not good");
 
-        updatePool(0);
+        updatePool(_pid);
         uint256 pending = (user.amount * pool.accCornPerShare / 1e12) - user.rewardDebt;
         if (pending > 0) {
             mintCornRewards(msg.sender, pending);
@@ -231,6 +231,7 @@ contract MasterChef is Ownable, ReentrancyGuard {
     function updateMultiplier(uint256 _multiplier) external onlyOwner {
         require(_multiplier > 0, "Value zero");
         
+        massUpdatePools();
         BONUS_MULTIPLIER = _multiplier;
         emit UpdateMultiplier(_multiplier);
     }
